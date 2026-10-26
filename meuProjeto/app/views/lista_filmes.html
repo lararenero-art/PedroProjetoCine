@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Filmes - CineApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>CineApp 🎬</h1>
+        <nav>
+            <a href="{{ url_for('filme.adicionar_filme') }}" class="btn-accent">+ Adicionar Filme</a>
+            <a href="{{ url_for('filme.estante') }}">Minha Estante</a>
+            <a href="{{ url_for('filme.listar_filmes') }}">Catálogo</a>
+            <a href="{{ url_for('filme.home') }}">Home</a>
+            <a href="{{ url_for('filme.logout') }}" class="btn-danger">Sair</a>
+        </nav>
+    </header>
+    <main style="flex: 1;">
+        {% if movies %}
+            <div class="movies-grid">
+                {% for movie in movies %}
+                    <div class="movie-card">
+                        {% if movie.poster_url %}
+                            <img src="{{ movie.poster_url }}" alt="Poster de {{ movie.title }}">
+                        {% else %}
+                            <div style="height: 280px; background-color: #2c3440; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">Sem Capa</div>
+                        {% endif %}
+                        <div class="movie-info">
+                            <h3>{{ movie.title }}</h3>
+                            <p style="color: var(--accent-orange); font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Ano: {{ movie.release_year }}</p>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{ movie.synopsis }}</p>
+                            
+                            <a href="{{ url_for('filme.avaliar_filme', movie_id=movie.id) }}" style="display: block; text-align: center; background-color: var(--border-color); color: white; padding: 0.5rem; border-radius: 6px; text-decoration: none; margin-top: 1rem; font-size: 0.9rem; font-weight: 600;">★ Avaliar / Adicionar</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 5rem 2rem; color: var(--text-muted);">
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">Ainda não existem filmes cadastrados no catálogo.</p>
+                <a href="{{ url_for('filme.adicionar_filme') }}" style="color: var(--accent-orange); font-weight: 700;">Seja o primeiro a adicionar um filme!</a>
+            </div>
+        {% endif %}
+    </main>
+
+    <footer style="border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1.5rem; background-color: #0c0f12;">
+        <p>&copy; 2026 CineApp</p>
+    </footer>
+</body>
+</html>
