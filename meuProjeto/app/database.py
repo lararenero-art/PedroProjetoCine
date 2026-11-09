@@ -3,7 +3,7 @@ from contextlib import contextmanager
 
 DB_FILE = 'MEUS FILMES PROJETO.db'  # Nome do teu ficheiro de base de dados
 
-
+// seperar em um único arquivo
 def init_db():
   """Cria as tabelas no SQLite se não existirem."""
   with get_db_cursor() as cursor:
@@ -45,6 +45,7 @@ def init_db():
         """)
 
 
+//colocar tudo isso em uma classe só
 @contextmanager
 def get_db_cursor():
   """Context Manager: abre conexão com o SQLite, executa o SQL e fecha sozinho."""
