@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>A Minha Estante - CineApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>CineApp 🎬</h1>
+        <nav>
+            <a href="{{ url_for('filme.adicionar_filme') }}" class="btn-accent">+ Adicionar Filme</a>
+            <a href="{{ url_for('filme.estante') }}">Minha Estante</a>
+            <a href="{{ url_for('filme.listar_filmes') }}">Catálogo</a>
+            <a href="{{ url_for('filme.home') }}">Home</a>
+            <a href="{{ url_for('filme.logout') }}" class="btn-danger">Sair</a>
+        </nav>
+    </header>
+    <main style="flex: 1; padding: 2rem; max-width: 1000px; margin: 0 auto;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert-{{ category if category in ['success', 'error'] else 'success' }}" style="margin-bottom: 2rem;">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% if reviews %}
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                {% for review in reviews %}
+                    <div style="display: flex; background: #1e293b; border: 1px solid #334155; border-radius: 10px; overflow: hidden; padding: 1rem; gap: 1.5rem;">
+                        {% if review.poster_url %}
+                            <img src="{{ review.poster_url }}" alt="Poster" style="width: 100px; height: 140px; object-fit: cover; border-radius: 6px;">
+                        {% else %}
+                            <div style="width: 100px; height: 140px; background: #334155; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">Sem Capa</div>
+                        {% endif %}
+
+                        <div style="flex: 1;">
+                            <h2 style="margin: 0 0 0.5rem 0; font-size: 1.4rem;">{{ review.movie_title }}</h2>
+                            <p style="margin: 0 0 0.5rem 0; color: #f59e0b; font-weight: bold;">
+                                Nota: {{ review.rating }} / 5.0 ⭐ 
+                                {% if review.is_fresh %}<span style="color: #4ade80; margin-left: 1rem;">🍿 Recomendo</span>{% else %}<span style="color: #f87171; margin-left: 1rem;">👎 Não Gostei</span>{% endif %}
+                            </p>
+                            <p style="color: #cbd5e1; font-style: italic;">"{{ review.content }}"</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 4rem; color: #94a3b8;">
+                <p>Ainda não registaste nenhum filme na tua estante!</p>
+                <a href="{{ url_for('filme.listar_filmes') }}" style="color: #38bdf8;">Explora o catálogo para adicionar o teu primeiro filme</a>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

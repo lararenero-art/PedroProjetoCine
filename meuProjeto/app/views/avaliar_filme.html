@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Avaliar {{ movie.title }} - CineApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container-auth" style="max-width: 500px;">
+        <h1 style="text-align: center; color: #e50914;">Avaliar Filme</h1>
+        <h2 style="text-align: center; font-size: 1.2rem; color: #94a3b8;">{{ movie.title }} ({{ movie.release_year }})</h2>
+
+        <form action="{{ url_for('filme.avaliar_filme', movie_id=movie.id) }}" method="POST">
+            <div>
+                <label for="rating">Nota (de 1 a 5 estrelas)</label>
+                <input type="number" step="0.5" min="1" max="5" id="rating" name="rating" value="5.0" required style="width: 100%; padding: 0.75rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: white;">
+            </div>
+            <div style="margin: 1rem 0;">
+                <label style="display: flex; align-items: center; cursor: pointer; color: white;">
+                    <input type="checkbox" name="is_fresh" checked style="margin-right: 0.5rem; width: 18px; height: 18px;">
+                    Gostaste deste filme? (Gostei/Favorito 🍿)
+                </label>
+            </div>
+            <div>
+                <label for="content">As tuas Impressões / Crítica</label>
+                <textarea id="content" name="content" rows="4" placeholder="O que achaste do filme?" style="width: 100%; padding: 0.75rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: white;"></textarea>
+            </div>
+            <button type="submit">Adicionar à Estante</button>
+        </form>
+        <p style="text-align: center; margin-top: 1rem;"><a href="{{ url_for('filme.listar_filmes') }}">Cancelar</a></p>
+    </div>
+</body>
+</html>
